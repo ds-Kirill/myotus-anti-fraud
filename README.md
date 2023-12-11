@@ -57,18 +57,22 @@ N - Нюансы
 BUCKET:
 https://storage.yandexcloud.net/antifroud-data
 
-# Airflow 
-скрины выполнения скрипта
+# Airflow скрины выполнения скрипта
+1. Отчёт ui airflow о выполненных заданиях
+   
 ![Снимок экрана от 2023-12-11 02-33-24](https://github.com/ds-Kirill/myotus-anti-fraud/assets/73669383/3520f627-1b6a-4cd6-977d-f7514e64850f)
 ![Снимок экрана от 2023-12-11 02-31-08](https://github.com/ds-Kirill/myotus-anti-fraud/assets/73669383/dcc8f265-5ef6-418f-a033-fed77356c932)
 
-Скрины создания новых файлов после очистки данных
+2. Скрины создания новых файлов после очистки данных
+   
 ![Снимок экрана от 2023-12-11 02-32-39](https://github.com/ds-Kirill/myotus-anti-fraud/assets/73669383/e35fbdf2-a0f5-4e57-8c91-540db3cb9da0)
 
-В новых файлах наши данные
+3. В новых файлах наши данные
+
 ![Снимок экрана от 2023-12-11 02-50-59](https://github.com/ds-Kirill/myotus-anti-fraud/assets/73669383/77534717-9024-48c7-bbb0-0cf6710fdcec)
 
-логии выполнения скрипта
+4. логии выполнения скрипта
+   
 ![Снимок экрана от 2023-12-11 02-31-48](https://github.com/ds-Kirill/myotus-anti-fraud/assets/73669383/670a6fd1-1414-4372-b9f5-90d019d99682)
 
 
