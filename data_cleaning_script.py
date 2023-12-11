@@ -1,12 +1,27 @@
+import findspark
+findspark.init()
+
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
 from pyspark.sql.types import StructType, StructField, IntegerType, StringType, DoubleType
+import argparse
 
-def main(file_path):
-    # Инициализация SparkSession
-    spark = SparkSession.builder.appName("AntiFraudOTUS").getOrCreate()
+def main(args):
+    data_path = '/user/data'
+    spark = (
+        SparkSession
+        .builder
+        .appName("antiFraud")
+        .config("spark.executor.cores", "4")
+        .config("spark.executor.memory", "4g") 
+        .config("spark.executor.instances", "6")
+        .config("spark.default.parallelism", "48")
+        .config("spark.shuffle.service.enabled", "true")
+        .config("spark.dynamicAllocation.enabled", "true")
+        .config("spark.ui.port", "4040")
+        .getOrCreate()
+    )
 
-    # Загрузка данных
     struct = StructType([
     StructField("transaction_id", IntegerType(), nullable=True),
     StructField("tx_datetime", StringType(), nullable=True),
@@ -24,14 +39,19 @@ def main(file_path):
     .option("inferSchema", "false")\
     .option("delimiter", ",")\
     .schema(struct)\
-    .csv(file_path)
+    .csv(data_path)
+    
+    file_path_parq = data_path + "/" + args + ".parquet"
 
-    # Вызов функции для очистки данных
+    df.write.parquet(file_path_parq)
+    
+    df = spark.read.parquet(file_path_parq)
+    
     cleaned_df = clean_data(df)
 
     # Сохранение очищенных данных
-    new_path = "clean_data.parquet"
-    cleaned_df.write.parquet(new_path)
+    clean_path = data_path + "_clean/" + args + ".parquet"
+    cleaned_df.write.parquet(clean_path)
 
     # Закрытие SparkSession
     spark.stop()
@@ -51,14 +71,19 @@ def clean_data(df):
     IQR = Q3 - Q1
     ub = Q3 + 1.5 * IQR
     
-    df_clean = df.filter(F.col("tx_amount") <= ub)
+    df = df.filter(F.col("tx_amount") <= ub)
     
-    return df_clean
+    return df
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Clean data')
-    parser.add_argument("file_path", type=str, help="file path of the data to be cleaned")
+    parser.add_argument(
+        "--file_path", 
+        type=str, 
+        help="file path of the data to be cleaned",
+        required=True
+        )
     
     args = parser.parse_args()
     main(args.file_path)
