@@ -121,6 +121,6 @@ def validate_models():
     predictionsA, predictionsB = get_predictions()
     f1A, f1B = bootstrap(predictionsA, predictionsB)
     stat, p, intA, intB = tests_mw(f1A, f1B)
-    result = result(stat, p, intA, intB)
+    result = result(stat, p, intA, intB) 
     
 validate_models = validate_models()
