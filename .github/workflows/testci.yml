@@ -6,3 +6,7 @@ jobs:
     steps:
       - name: print to console
         run: echo Hello
+      - name: Print few raws
+        run: |
+          echo First
+          echo Second
